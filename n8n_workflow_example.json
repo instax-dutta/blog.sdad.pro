@@ -1,0 +1,127 @@
+{
+  "name": "Blog API Post - Example",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "title",
+              "name": "title",
+              "value": "Test Blog Post",
+              "type": "string"
+            },
+            {
+              "id": "content",
+              "name": "content",
+              "value": "# Test Post\n\nThis is a test blog post created from n8n.\n\n## Features\n\n- API integration\n- n8n automation\n- Markdown support",
+              "type": "string"
+            },
+            {
+              "id": "excerpt",
+              "name": "excerpt",
+              "value": "A test blog post created via n8n",
+              "type": "string"
+            },
+            {
+              "id": "tags",
+              "name": "tags",
+              "value": "[\"test\", \"n8n\", \"api\"]",
+              "type": "string"
+            },
+            {
+              "id": "author",
+              "name": "author",
+              "value": "SDAD",
+              "type": "string"
+            },
+            {
+              "id": "published",
+              "name": "published",
+              "value": "true",
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-data",
+      "name": "Set Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://blog.sdad.pro/api/posts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": []
+        },
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"title\": $json.title,\n  \"content\": $json.content,\n  \"excerpt\": $json.excerpt || '',\n  \"tags\": JSON.parse($json.tags || '[]'),\n  \"author\": $json.author || 'SDAD',\n  \"published\": $json.published !== false\n}",
+        "options": {}
+      },
+      "id": "http-request",
+      "name": "Post to Blog API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [650, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "blog-api-key",
+          "name": "Blog API Key"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "error-trigger",
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [[{ "node": "Set Data", "type": "main", "index": 0 }]]
+    },
+    "Set Data": {
+      "main": [[{ "node": "Post to Blog API", "type": "main", "index": 0 }]]
+    },
+    "Post to Blog API": {
+      "main": [[{ "node": "Error Handler", "type": "main", "index": 0 }]]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-15T10:00:00.000Z",
+  "versionId": "1"
+}
+
