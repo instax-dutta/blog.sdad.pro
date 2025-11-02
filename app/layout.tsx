@@ -32,6 +32,14 @@ export const metadata: Metadata = {
     },
   },
   metadataBase: new URL('https://blog.sdad.pro'),
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+  },
 }
 
 export default function RootLayout({
