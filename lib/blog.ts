@@ -232,7 +232,6 @@ export async function createBlogPost(post: Omit<BlogPost, 'slug' | 'content'> & 
     console.log('Blog post stored in Blob successfully:', {
       url: blob.url,
       pathname: blob.pathname,
-      size: blob.size,
       totalPosts: updatedPosts.length,
     })
     
