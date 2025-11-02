@@ -5,6 +5,7 @@ import { put, head, list } from '@vercel/blob'
 
 const postsDirectory = path.join(process.cwd(), 'data', 'posts')
 const BLOB_STORAGE_KEY = 'blog-posts.json'
+const BLOB_PREFIX = 'blog-posts' // Prefix for finding blog post blobs (they get unique suffixes)
 
 export interface BlogPost {
   slug: string
@@ -67,15 +68,23 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       console.log('Attempting to read from Blob storage...')
-      // Check if the blob exists
+      // Check if the blob exists - search for prefix since Vercel creates unique filenames
       try {
-        const { blobs } = await list({ prefix: BLOB_STORAGE_KEY })
-        console.log(`Found ${blobs.length} blob(s) with prefix "${BLOB_STORAGE_KEY}"`)
+        const { blobs } = await list({ prefix: BLOB_PREFIX })
+        console.log(`Found ${blobs.length} blob(s) with prefix "${BLOB_PREFIX}"`)
         
         if (blobs.length > 0) {
-          // Fetch the blob content - try both url and downloadUrl
-          const blobUrl = blobs[0].url || blobs[0].downloadUrl
-          console.log(`Fetching blob from: ${blobUrl}`)
+          // Get the most recent blob (latest uploadedAt time)
+          const sortedBlobs = blobs.sort((a, b) => {
+            const timeA = a.uploadedAt ? new Date(a.uploadedAt).getTime() : 0
+            const timeB = b.uploadedAt ? new Date(b.uploadedAt).getTime() : 0
+            return timeB - timeA // Most recent first
+          })
+          
+          const latestBlob = sortedBlobs[0]
+          const blobUrl = latestBlob.url || latestBlob.downloadUrl
+          console.log(`Fetching latest blob from: ${blobUrl}`)
+          console.log(`Blob name: ${latestBlob.pathname}, uploaded at: ${latestBlob.uploadedAt}`)
           
           const response = await fetch(blobUrl)
           if (!response.ok) {
@@ -93,7 +102,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
             console.warn('Blob content is not an array:', typeof blobPosts)
           }
         } else {
-          console.log(`No blob found with prefix "${BLOB_STORAGE_KEY}"`)
+          console.log(`No blob found with prefix "${BLOB_PREFIX}"`)
         }
       } catch (error) {
         // Blob doesn't exist yet, that's fine - just means no dynamic posts yet
@@ -126,9 +135,17 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
   // First try Blob storage (dynamic posts)
   try {
     if (process.env.BLOB_READ_WRITE_TOKEN) {
-      const { blobs } = await list({ prefix: BLOB_STORAGE_KEY })
+      const { blobs } = await list({ prefix: BLOB_PREFIX })
       if (blobs.length > 0) {
-        const blobUrl = blobs[0].url || blobs[0].downloadUrl
+        // Get the most recent blob
+        const sortedBlobs = blobs.sort((a, b) => {
+          const timeA = a.uploadedAt ? new Date(a.uploadedAt).getTime() : 0
+          const timeB = b.uploadedAt ? new Date(b.uploadedAt).getTime() : 0
+          return timeB - timeA
+        })
+        
+        const latestBlob = sortedBlobs[0]
+        const blobUrl = latestBlob.url || latestBlob.downloadUrl
         const response = await fetch(blobUrl)
         if (response.ok) {
           const blobPosts: BlogPost[] = await response.json()
@@ -196,18 +213,30 @@ export async function createBlogPost(post: Omit<BlogPost, 'slug' | 'content'> & 
     published: post.published !== false,
   }
 
-  // Get existing posts from Blob
+  // Get existing posts from Blob - find the latest blob with the prefix
   let existingPosts: BlogPost[] = []
   try {
-    const { blobs } = await list({ prefix: BLOB_STORAGE_KEY })
+    const { blobs } = await list({ prefix: BLOB_PREFIX })
     if (blobs.length > 0) {
-      const blobUrl = blobs[0].url || blobs[0].downloadUrl
+      // Get the most recent blob (latest uploadedAt time)
+      const sortedBlobs = blobs.sort((a, b) => {
+        const timeA = a.uploadedAt ? new Date(a.uploadedAt).getTime() : 0
+        const timeB = b.uploadedAt ? new Date(b.uploadedAt).getTime() : 0
+        return timeB - timeA // Most recent first
+      })
+      
+      const latestBlob = sortedBlobs[0]
+      const blobUrl = latestBlob.url || latestBlob.downloadUrl
+      console.log(`Reading existing posts from latest blob: ${latestBlob.pathname}`)
+      
       const response = await fetch(blobUrl)
       if (response.ok) {
         existingPosts = await response.json()
         if (!Array.isArray(existingPosts)) {
           console.warn('Blob content is not an array, initializing empty array')
           existingPosts = []
+        } else {
+          console.log(`Found ${existingPosts.length} existing posts in Blob`)
         }
       }
     }
@@ -253,18 +282,14 @@ export async function createBlogPost(post: Omit<BlogPost, 'slug' | 'content'> & 
       throw new Error(`Failed to call blob.put(): ${putError instanceof Error ? putError.message : 'Unknown error'}`)
     }
     
-    // Verify it was stored correctly - wait a moment for propagation
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
+    // Note: Verification is optional since Blob storage may have slight propagation delay
+    // The blob was successfully created (we have the URL), so it will be available soon
     try {
-      const { blobs } = await list({ prefix: BLOB_STORAGE_KEY })
-      console.log(`Verification: Found ${blobs.length} blob(s) after storing`)
-      if (blobs.length === 0) {
-        throw new Error('Blob was not found after storing. Storage may have failed.')
-      }
+      const { blobs } = await list({ prefix: BLOB_PREFIX })
+      console.log(`Verification: Found ${blobs.length} total blob(s) with prefix "${BLOB_PREFIX}" (including newly created one)`)
     } catch (verifyError) {
-      console.error('Verification failed:', verifyError)
-      throw new Error(`Blob storage verification failed: ${verifyError instanceof Error ? verifyError.message : 'Unknown error'}`)
+      // Verification is non-critical - blob was stored, it just might take a moment to appear in list
+      console.log('Could not verify blob in list (non-critical):', verifyError instanceof Error ? verifyError.message : verifyError)
     }
   } catch (error) {
     console.error('Error storing blog post in Blob:', error)

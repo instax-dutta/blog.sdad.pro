@@ -3,6 +3,7 @@ import { getBlogPosts } from '@/lib/blog'
 import { list } from '@vercel/blob'
 
 const BLOB_STORAGE_KEY = 'blog-posts.json'
+const BLOB_PREFIX = 'blog-posts' // Prefix for finding blog post blobs
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -23,12 +24,22 @@ export async function GET() {
     
     if (blobConfigured) {
       try {
-        const { blobs } = await list({ prefix: BLOB_STORAGE_KEY })
+        const { blobs } = await list({ prefix: BLOB_PREFIX })
         if (blobs.length > 0) {
+          // Get the most recent blob
+          const sortedBlobs = blobs.sort((a, b) => {
+            const timeA = a.uploadedAt ? new Date(a.uploadedAt).getTime() : 0
+            const timeB = b.uploadedAt ? new Date(b.uploadedAt).getTime() : 0
+            return timeB - timeA
+          })
+          
+          const latestBlob = sortedBlobs[0]
           blobInfo.exists = true
-          blobInfo.blobUrl = blobs[0].url || blobs[0].downloadUrl
-          blobInfo.blobName = blobs[0].pathname
-          blobInfo.blobSize = blobs[0].size
+          blobInfo.blobUrl = latestBlob.url || latestBlob.downloadUrl
+          blobInfo.blobName = latestBlob.pathname
+          blobInfo.blobSize = latestBlob.size
+          blobInfo.totalBlobs = blobs.length
+          blobInfo.allBlobNames = blobs.map(b => b.pathname)
           
           // Try to fetch and parse the content
           try {
@@ -51,7 +62,7 @@ export async function GET() {
             blobInfo.error = fetchError instanceof Error ? fetchError.message : 'Failed to fetch blob content'
           }
         } else {
-          blobInfo.error = `No blob found with prefix "${BLOB_STORAGE_KEY}"`
+          blobInfo.error = `No blob found with prefix "${BLOB_PREFIX}"`
         }
       } catch (blobError) {
         blobInfo.error = blobError instanceof Error ? blobError.message : 'Error checking blob storage'
