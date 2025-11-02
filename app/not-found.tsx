@@ -18,7 +18,7 @@ export default function NotFound() {
           $ error: file not found
         </p>
         <p className="text-terminal-fg-dim mb-8 text-sm font-mono">
-          $ echo "The blog post you're looking for doesn't exist or has been removed."
+          $ echo &quot;The blog post you&apos;re looking for doesn&apos;t exist or has been removed.&quot;
         </p>
         <Link
           href="/"

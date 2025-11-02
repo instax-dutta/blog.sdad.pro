@@ -60,7 +60,7 @@ export default async function Home() {
             </h1>
           </Link>
           <p className="text-terminal-fg-dim text-sm md:text-base max-w-2xl mx-auto mt-4 font-mono">
-            $ echo "Welcome to my blog - exploring AI, Machine Learning, and the latest technology innovations"
+            $ echo &quot;Welcome to my blog - exploring AI, Machine Learning, and the latest technology innovations&quot;
           </p>
           <div className="mt-8 border-t border-terminal-border"></div>
         </header>
