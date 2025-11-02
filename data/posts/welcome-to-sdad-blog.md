@@ -1,6 +1,6 @@
 ---
 title: Welcome to My Blog
-date: 2024-01-01T00:00:00.000Z
+date: 2025-11-01T00:00:00.000Z
 excerpt: Welcome to my blog - your source for the latest AI and Machine Learning insights, technology breakthroughs, and innovations.
 tags: ['welcome', 'blog', 'introduction', 'AI', 'Machine Learning']
 author: SDAD
