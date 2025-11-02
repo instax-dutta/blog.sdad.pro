@@ -44,7 +44,7 @@ export function WebsiteJsonLd() {
     '@type': 'WebSite',
     name: 'SDAD Blog',
     url: 'https://blog.sdad.pro',
-    description: 'A sci-fi themed blog covering technology, development, and innovation',
+    description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
     publisher: {
       '@type': 'Organization',
       name: 'SDAD',
@@ -66,7 +66,7 @@ export function BlogJsonLd() {
     '@type': 'Blog',
     name: 'SDAD Blog',
     url: 'https://blog.sdad.pro',
-    description: 'A sci-fi themed blog covering technology, development, and innovation',
+    description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
     publisher: {
       '@type': 'Organization',
       name: 'SDAD',

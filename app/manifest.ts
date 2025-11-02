@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'SDAD Blog',
     short_name: 'SDAD Blog',
-    description: 'A sci-fi themed blog covering technology, development, and innovation',
+    description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
     start_url: '/',
     display: 'standalone',
     background_color: '#0a0a0f',

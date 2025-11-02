@@ -6,8 +6,8 @@ import { WebsiteJsonLd, BlogJsonLd } from '@/app/json-ld'
 
 export const metadata: Metadata = {
   title: 'Blog | SDAD',
-  description: 'A sci-fi themed blog covering technology, development, and innovation',
-  keywords: ['blog', 'technology', 'development', 'sci-fi', 'tech', 'SDAD'],
+  description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
+  keywords: ['AI', 'machine learning', 'artificial intelligence', 'deep learning', 'technology', 'innovation', 'tech blog', 'ML', 'neural networks', 'data science', 'SDAD'],
   authors: [{ name: 'SDAD' }],
   creator: 'SDAD',
   publisher: 'SDAD',
@@ -19,13 +19,13 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://blog.sdad.pro',
     title: 'Blog | SDAD',
-    description: 'A sci-fi themed blog covering technology, development, and innovation',
+    description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
     siteName: 'SDAD Blog',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Blog | SDAD',
-    description: 'A sci-fi themed blog covering technology, development, and innovation',
+    description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
   },
   robots: {
     index: true,
@@ -58,7 +58,7 @@ export default async function Home() {
             </h1>
           </Link>
           <p className="text-sci-fi-cyan text-lg md:text-xl max-w-2xl mx-auto">
-            Exploring the frontiers of technology and innovation
+            Welcome to my blog - exploring AI, Machine Learning, and the latest technology innovations
           </p>
           <div className="mt-8 h-px w-32 mx-auto bg-gradient-to-r from-transparent via-sci-fi-accent to-transparent"></div>
         </header>

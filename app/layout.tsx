@@ -3,8 +3,8 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Blog | SDAD',
-  description: 'A sci-fi themed blog covering technology, development, and innovation',
-  keywords: ['blog', 'technology', 'development', 'sci-fi', 'tech'],
+  description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
+  keywords: ['AI', 'machine learning', 'artificial intelligence', 'deep learning', 'technology', 'innovation', 'tech blog', 'ML', 'neural networks', 'data science', 'SDAD'],
   authors: [{ name: 'SDAD' }],
   creator: 'SDAD',
   openGraph: {
@@ -12,13 +12,13 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://blog.sdad.pro',
     title: 'Blog | SDAD',
-    description: 'A sci-fi themed blog covering technology, development, and innovation',
+    description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
     siteName: 'SDAD Blog',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Blog | SDAD',
-    description: 'A sci-fi themed blog covering technology, development, and innovation',
+    description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
   },
   robots: {
     index: true,
