@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { format } from 'date-fns'
 import type { Metadata } from 'next'
-import { getBlogPosts } from '@/lib/blog'
+import { getBlogPosts, type BlogPost } from '@/lib/blog'
 import { WebsiteJsonLd, BlogJsonLd } from '@/app/json-ld'
 
 export const dynamic = 'force-dynamic'
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-  let posts
+  let posts: BlogPost[] = []
   try {
     posts = await getBlogPosts()
   } catch (error) {
