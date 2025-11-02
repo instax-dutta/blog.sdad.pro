@@ -59,10 +59,10 @@ export default async function Home() {
               ML Matters
             </h1>
           </Link>
-          <p className="text-sci-fi-cyan text-lg md:text-xl max-w-2xl mx-auto">
+          <p className="text-sci-fi-accent/80 text-lg md:text-xl max-w-2xl mx-auto">
             Welcome to my blog - exploring AI, Machine Learning, and the latest technology innovations
           </p>
-          <div className="mt-8 h-px w-32 mx-auto bg-gradient-to-r from-transparent via-sci-fi-accent to-transparent"></div>
+          <div className="mt-8 h-px w-32 mx-auto bg-gradient-to-r from-transparent via-sci-fi-accent/50 to-transparent"></div>
         </header>
 
         {/* Blog Posts Grid */}
@@ -70,8 +70,8 @@ export default async function Home() {
           {posts.length === 0 ? (
             <div className="text-center py-20">
               <div className="inline-block p-8 sci-fi-border rounded-lg">
-                <p className="text-sci-fi-cyan text-xl mb-4">No posts yet</p>
-                <p className="text-sci-fi-purple">The first post is coming soon...</p>
+                <p className="text-sci-fi-accent/80 text-xl mb-4">No posts yet</p>
+                <p className="text-sci-fi-accent/60">The first post is coming soon...</p>
               </div>
             </div>
           ) : (
@@ -83,7 +83,7 @@ export default async function Home() {
                   className="group sci-fi-border rounded-lg p-6 hover:shadow-sci-fi-glow transition-all duration-300 block"
                 >
                   <div className="mb-4">
-                    <time className="text-sci-fi-purple text-sm">
+                    <time className="text-sci-fi-accent/80 text-sm">
                       {format(new Date(post.date), 'MMMM dd, yyyy')}
                     </time>
                   </div>
@@ -91,7 +91,7 @@ export default async function Home() {
                     {post.title}
                   </h2>
                   {post.excerpt && (
-                    <p className="text-sci-fi-cyan/70 mb-4 line-clamp-3">
+                    <p className="text-sci-fi-accent/70 mb-4 line-clamp-3">
                       {post.excerpt}
                     </p>
                   )}
@@ -118,13 +118,13 @@ export default async function Home() {
 
         {/* Footer */}
         <footer className="mt-24 text-center py-8 border-t border-sci-fi-accent/20">
-          <p className="text-sci-fi-cyan/60">
+          <p className="text-sci-fi-accent/60">
             Powered by{' '}
             <a
               href="https://sdad.pro"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sci-fi-accent hover:glow-cyan"
+              className="text-sci-fi-accent hover:text-sci-fi-cyan transition-colors"
             >
               SDAD
             </a>

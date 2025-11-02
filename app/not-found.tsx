@@ -7,10 +7,10 @@ export default function NotFound() {
         <h1 className="text-6xl md:text-8xl font-bold mb-4 glow-cyan">
           404
         </h1>
-        <p className="text-2xl md:text-3xl mb-8 text-sci-fi-cyan">
+        <p className="text-2xl md:text-3xl mb-8 text-sci-fi-accent/80">
           Post Not Found
         </p>
-        <p className="text-sci-fi-cyan/70 mb-8">
+        <p className="text-sci-fi-accent/70 mb-8">
           The blog post you&apos;re looking for doesn&apos;t exist or has been removed.
         </p>
         <Link

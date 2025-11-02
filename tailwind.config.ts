@@ -9,20 +9,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'sci-fi-dark': '#0a0a0f',
-        'sci-fi-darker': '#050508',
-        'sci-fi-accent': '#00f5ff',
-        'sci-fi-accent-dark': '#0099a3',
-        'sci-fi-purple': '#8b5cf6',
-        'sci-fi-pink': '#ec4899',
-        'sci-fi-cyan': '#06b6d4',
+        'sci-fi-dark': '#0a0f1f',
+        'sci-fi-darker': '#0f172a',
+        'sci-fi-accent': '#60a5fa',
+        'sci-fi-accent-dark': '#3b82f6',
+        'sci-fi-purple': '#60a5fa',
+        'sci-fi-pink': '#f472b6',
+        'sci-fi-cyan': '#22d3ee',
       },
       fontFamily: {
-        'sci-fi': ['Inter', 'system-ui', 'sans-serif'],
+        'sci-fi': ['Archivo', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'sci-fi': '0 0 20px rgba(0, 245, 255, 0.1), 0 0 40px rgba(139, 92, 246, 0.05)',
-        'sci-fi-glow': '0 0 30px rgba(0, 245, 255, 0.3)',
+        'sci-fi': '0 0 10px rgba(96, 165, 250, 0.05)',
+        'sci-fi-glow': '0 0 20px rgba(96, 165, 250, 0.1)',
       },
       animation: {
         'glow': 'glow 2s ease-in-out infinite alternate',

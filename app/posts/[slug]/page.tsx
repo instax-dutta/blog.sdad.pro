@@ -93,8 +93,8 @@ export default async function BlogPost({ params }: { params: { slug: string } })
               {post.title}
             </h1>
             
-            <div className="flex flex-wrap items-center gap-4 text-sm text-sci-fi-cyan/70">
-              <time className="text-sci-fi-purple">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-sci-fi-accent/70">
+              <time className="text-sci-fi-accent/80">
                 {format(new Date(post.date), 'MMMM dd, yyyy')}
               </time>
               {post.author && (
@@ -137,7 +137,7 @@ export default async function BlogPost({ params }: { params: { slug: string } })
                   <h3 className="text-xl font-bold mb-2 mt-4">{children}</h3>
                 ),
                 p: ({ children }) => (
-                  <p className="mb-4 text-sci-fi-cyan/80 leading-relaxed">
+                  <p className="mb-4 text-sci-fi-accent/80 leading-relaxed">
                     {children}
                   </p>
                 ),
@@ -169,17 +169,17 @@ export default async function BlogPost({ params }: { params: { slug: string } })
                   </pre>
                 ),
                 blockquote: ({ children }) => (
-                  <blockquote className="border-l-4 border-sci-fi-accent pl-4 ml-4 my-4 italic text-sci-fi-cyan/70">
+                  <blockquote className="border-l-4 border-sci-fi-accent pl-4 ml-4 my-4 italic text-sci-fi-accent/70">
                     {children}
                   </blockquote>
                 ),
                 ul: ({ children }) => (
-                  <ul className="list-disc list-outside ml-6 mb-4 text-sci-fi-cyan/80 space-y-2">
+                  <ul className="list-disc list-outside ml-6 mb-4 text-sci-fi-accent/80 space-y-2">
                     {children}
                   </ul>
                 ),
                 ol: ({ children }) => (
-                  <ol className="list-decimal list-outside ml-6 mb-4 text-sci-fi-cyan/80 space-y-2">
+                  <ol className="list-decimal list-outside ml-6 mb-4 text-sci-fi-accent/80 space-y-2">
                     {children}
                   </ol>
                 ),
