@@ -8,11 +8,22 @@ export async function POST(request: NextRequest) {
   try {
     // Check API key
     const authHeader = request.headers.get('authorization')
-    const apiKey = authHeader?.replace('Bearer ', '') || request.headers.get('x-api-key')
+    const apiKey = authHeader?.replace(/^Bearer\s+/i, '').trim() || request.headers.get('x-api-key')?.trim()
     
-    if (!apiKey || apiKey !== API_KEY) {
+    // Debug logging (remove in production if sensitive)
+    console.log('API Key received:', apiKey ? '***' + apiKey.slice(-3) : 'none')
+    console.log('Expected API Key:', API_KEY ? '***' + API_KEY.slice(-3) : 'not set')
+    
+    if (!apiKey) {
       return NextResponse.json(
-        { error: 'Unauthorized. Invalid or missing API key.' },
+        { error: 'Unauthorized. Missing API key. Please provide Authorization: Bearer YOUR_API_KEY or x-api-key header.' },
+        { status: 401 }
+      )
+    }
+    
+    if (apiKey !== API_KEY) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Invalid API key. Please check your API key in Vercel environment variables (BLOG_API_KEY).' },
         { status: 401 }
       )
     }
