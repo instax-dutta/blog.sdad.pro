@@ -1,10 +1,10 @@
 import { MetadataRoute } from 'next'
-import { getBlogPosts } from '@/lib/blog'
+import { getBlogPosts, type BlogPost } from '@/lib/blog'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://blog.sdad.pro'
   
-  let posts
+  let posts: BlogPost[] = []
   try {
     posts = await getBlogPosts()
   } catch (error) {
