@@ -224,27 +224,57 @@ export async function createBlogPost(post: Omit<BlogPost, 'slug' | 'content'> & 
     console.log(`Storing ${updatedPosts.length} posts in Blob storage...`)
     console.log('Posts to store:', updatedPosts.map(p => ({ slug: p.slug, title: p.title, published: p.published })))
     
-    const blob = await put(BLOB_STORAGE_KEY, JSON.stringify(updatedPosts), {
-      access: 'public',
-      contentType: 'application/json',
-    })
+    // Check Blob token before attempting to store
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      throw new Error('BLOB_READ_WRITE_TOKEN is not set. Please configure Blob storage in Vercel.')
+    }
     
-    console.log('Blog post stored in Blob successfully:', {
-      url: blob.url,
-      pathname: blob.pathname,
-      totalPosts: updatedPosts.length,
-    })
+    const postsJson = JSON.stringify(updatedPosts)
+    console.log(`JSON size: ${postsJson.length} bytes`)
     
-    // Verify it was stored correctly
+    let blob
+    try {
+      blob = await put(BLOB_STORAGE_KEY, postsJson, {
+        access: 'public',
+        contentType: 'application/json',
+      })
+      
+      if (!blob || !blob.url) {
+        throw new Error('Blob put returned invalid result - missing URL')
+      }
+      
+      console.log('Blog post stored in Blob successfully:', {
+        url: blob.url,
+        pathname: blob.pathname,
+        totalPosts: updatedPosts.length,
+      })
+    } catch (putError) {
+      console.error('put() call failed:', putError)
+      throw new Error(`Failed to call blob.put(): ${putError instanceof Error ? putError.message : 'Unknown error'}`)
+    }
+    
+    // Verify it was stored correctly - wait a moment for propagation
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    
     try {
       const { blobs } = await list({ prefix: BLOB_STORAGE_KEY })
       console.log(`Verification: Found ${blobs.length} blob(s) after storing`)
+      if (blobs.length === 0) {
+        throw new Error('Blob was not found after storing. Storage may have failed.')
+      }
     } catch (verifyError) {
-      console.warn('Could not verify blob storage:', verifyError)
+      console.error('Verification failed:', verifyError)
+      throw new Error(`Blob storage verification failed: ${verifyError instanceof Error ? verifyError.message : 'Unknown error'}`)
     }
   } catch (error) {
     console.error('Error storing blog post in Blob:', error)
-    throw new Error(`Failed to store blog post: ${error instanceof Error ? error.message : 'Unknown error'}. Make sure Vercel Blob is configured.`)
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    console.error('Full error details:', {
+      error: errorMessage,
+      hasBlobToken: !!process.env.BLOB_READ_WRITE_TOKEN,
+      postsCount: updatedPosts.length,
+    })
+    throw new Error(`Failed to store blog post: ${errorMessage}. Make sure Vercel Blob is configured with BLOB_READ_WRITE_TOKEN.`)
   }
 
   return blogPost

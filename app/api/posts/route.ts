@@ -32,21 +32,47 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse request body
-    const body = await request.json()
+    let body: any
+    try {
+      body = await request.json()
+      console.log('Received API request body:', {
+        hasTitle: !!body.title,
+        hasContent: !!body.content,
+        titleLength: body.title?.length || 0,
+        contentLength: body.content?.length || 0,
+        published: body.published,
+        excerpt: body.excerpt?.substring(0, 50),
+      })
+    } catch (parseError) {
+      console.error('Error parsing request body:', parseError)
+      return NextResponse.json(
+        { error: 'Invalid JSON in request body' },
+        { status: 400 }
+      )
+    }
     
     // Validate required fields
     const { title, content, excerpt, tags, author, date, image, published } = body
     
     if (!title || !content) {
+      console.error('Missing required fields:', { hasTitle: !!title, hasContent: !!content })
       return NextResponse.json(
-        { error: 'Missing required fields: title and content are required' },
+        { error: 'Missing required fields: title and content are required', received: { hasTitle: !!title, hasContent: !!content } },
         { status: 400 }
       )
     }
 
     // Create blog post
-    console.log('Creating blog post with data:', { title, excerpt, published })
-    const post = await createBlogPost({
+    console.log('Creating blog post with data:', { 
+      title: title.substring(0, 50), 
+      excerpt: excerpt?.substring(0, 50), 
+      published,
+      contentLength: content.length,
+    })
+    
+    let post
+    try {
+      post = await createBlogPost({
       title,
       content,
       excerpt: excerpt || '',
@@ -55,13 +81,16 @@ export async function POST(request: NextRequest) {
       date: date || new Date().toISOString(),
       image: image || undefined,
       published: published !== false,
-    })
-
-    console.log('Blog post created successfully:', {
-      slug: post.slug,
-      title: post.title,
-      published: post.published,
-    })
+      })
+      console.log('Blog post created successfully:', {
+        slug: post.slug,
+        title: post.title,
+        published: post.published,
+      })
+    } catch (createError) {
+      console.error('Error in createBlogPost:', createError)
+      throw createError
+    }
 
     return NextResponse.json(
       {
