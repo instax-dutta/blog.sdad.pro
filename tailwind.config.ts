@@ -9,20 +9,25 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'sci-fi-dark': '#0a0f1f',
-        'sci-fi-darker': '#0f172a',
-        'sci-fi-accent': '#60a5fa',
-        'sci-fi-accent-dark': '#3b82f6',
-        'sci-fi-purple': '#60a5fa',
-        'sci-fi-pink': '#f472b6',
-        'sci-fi-cyan': '#22d3ee',
+        'sci-fi-dark': '#0a0a15',
+        'sci-fi-darker': '#1a1a2e',
+        'sci-fi-accent': '#00f5ff',
+        'sci-fi-accent-dark': '#00c4cc',
+        'sci-fi-purple': '#8338ec',
+        'sci-fi-pink': '#ff0080',
+        'sci-fi-cyan': '#00f5ff',
+        'sci-fi-yellow': '#ffbe0b',
       },
       fontFamily: {
-        'sci-fi': ['Archivo', 'system-ui', 'sans-serif'],
+        'sci-fi': ['Space Grotesk', 'Archivo', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'sci-fi': '0 0 10px rgba(96, 165, 250, 0.05)',
-        'sci-fi-glow': '0 0 20px rgba(96, 165, 250, 0.1)',
+        'sci-fi': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+        'sci-fi-glow': '0 12px 40px 0 rgba(255, 0, 128, 0.3)',
+        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37), inset 0 0 0 1px rgba(255, 255, 255, 0.1)',
+      },
+      backdropBlur: {
+        xs: '2px',
       },
       animation: {
         'glow': 'glow 2s ease-in-out infinite alternate',

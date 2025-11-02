@@ -47,12 +47,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <html lang="en">
-      <body className="relative z-10">
-        {children}
-      </body>
-    </html>
-  )
+      return (
+        <html lang="en">
+          <body className="relative z-10">
+            <div className="relative z-10">
+              {children}
+            </div>
+          </body>
+        </html>
+      )
 }
 

@@ -50,28 +50,30 @@ export default async function Home() {
     <>
       <WebsiteJsonLd />
       <BlogJsonLd />
-      <main className="min-h-screen px-4 py-8 md:px-8 lg:px-16 xl:px-24">
+      <main className="min-h-screen px-4 py-8 md:px-8 lg:px-16 xl:px-24 relative z-10">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <header className="mb-16 text-center">
           <Link href="/" className="inline-block">
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 glow-cyan">
-              ML Matters
+            <h1 className="text-5xl md:text-6xl font-bold mb-4 glow-pink relative">
+              <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+                ML Matters
+              </span>
             </h1>
           </Link>
-          <p className="text-sci-fi-accent/80 text-lg md:text-xl max-w-2xl mx-auto">
+          <p className="text-sci-fi-accent/90 text-lg md:text-xl max-w-2xl mx-auto mt-4">
             Welcome to my blog - exploring AI, Machine Learning, and the latest technology innovations
           </p>
-          <div className="mt-8 h-px w-32 mx-auto bg-gradient-to-r from-transparent via-sci-fi-accent/50 to-transparent"></div>
+          <div className="mt-8 h-px w-40 mx-auto bg-gradient-to-r from-transparent via-pink-500 via-purple-500 via-cyan-500 to-transparent"></div>
         </header>
 
         {/* Blog Posts Grid */}
         <section className="mt-16">
           {posts.length === 0 ? (
             <div className="text-center py-20">
-              <div className="inline-block p-8 sci-fi-border rounded-lg">
-                <p className="text-sci-fi-accent/80 text-xl mb-4">No posts yet</p>
-                <p className="text-sci-fi-accent/60">The first post is coming soon...</p>
+              <div className="inline-block p-8 glass rounded-2xl">
+                <p className="text-sci-fi-accent text-xl mb-4">No posts yet</p>
+                <p className="text-sci-fi-accent/70">The first post is coming soon...</p>
               </div>
             </div>
           ) : (
@@ -80,18 +82,18 @@ export default async function Home() {
                 <Link
                   key={post.slug}
                   href={`/posts/${post.slug}`}
-                  className="group sci-fi-border rounded-lg p-6 hover:shadow-sci-fi-glow transition-all duration-300 block"
+                  className="group glass rounded-2xl p-6 glass-hover transition-all duration-300 block relative overflow-hidden"
                 >
                   <div className="mb-4">
                     <time className="text-sci-fi-accent/80 text-sm">
                       {format(new Date(post.date), 'MMMM dd, yyyy')}
                     </time>
                   </div>
-                  <h2 className="text-2xl font-bold mb-3 group-hover:text-sci-fi-accent transition-colors">
+                  <h2 className="text-2xl font-bold mb-3 transition-all group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:via-purple-400 group-hover:to-cyan-400 group-hover:bg-clip-text group-hover:text-transparent">
                     {post.title}
                   </h2>
                   {post.excerpt && (
-                    <p className="text-sci-fi-accent/70 mb-4 line-clamp-3">
+                    <p className="text-white/70 mb-4 line-clamp-3">
                       {post.excerpt}
                     </p>
                   )}
@@ -100,14 +102,14 @@ export default async function Home() {
                       {post.tags.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="px-2 py-1 text-xs rounded border border-sci-fi-accent/30 text-sci-fi-accent"
+                          className="px-3 py-1 text-xs rounded-full border border-white/20 bg-white/5 backdrop-blur-sm text-white/80"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
                   )}
-                  <div className="mt-4 text-sci-fi-accent text-sm group-hover:translate-x-2 transition-transform inline-block">
+                  <div className="mt-4 bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent text-sm group-hover:translate-x-2 transition-transform inline-block font-semibold">
                     Read more →
                   </div>
                 </Link>
@@ -117,14 +119,14 @@ export default async function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="mt-24 text-center py-8 border-t border-sci-fi-accent/20">
-          <p className="text-sci-fi-accent/60">
+        <footer className="mt-24 text-center py-8 border-t border-white/10">
+          <p className="text-white/60">
             Powered by{' '}
             <a
               href="https://sdad.pro"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sci-fi-accent hover:text-sci-fi-cyan transition-colors"
+              className="bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent hover:from-cyan-400 hover:via-yellow-400 hover:to-pink-400 transition-all"
             >
               SDAD
             </a>
