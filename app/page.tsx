@@ -61,7 +61,7 @@ export default async function Home() {
               </span>
             </h1>
           </Link>
-          <p className="text-sci-fi-accent/90 text-lg md:text-xl max-w-2xl mx-auto mt-4">
+          <p className="text-cyan-300 text-lg md:text-xl max-w-2xl mx-auto mt-4">
             Welcome to my blog - exploring AI, Machine Learning, and the latest technology innovations
           </p>
           <div className="mt-8 h-px w-40 mx-auto bg-gradient-to-r from-transparent via-pink-500 via-purple-500 via-cyan-500 to-transparent"></div>
@@ -85,15 +85,15 @@ export default async function Home() {
                   className="group glass rounded-2xl p-6 glass-hover transition-all duration-300 block relative overflow-hidden"
                 >
                   <div className="mb-4">
-                    <time className="text-sci-fi-accent/80 text-sm">
+                    <time className="text-cyan-400 text-sm font-medium">
                       {format(new Date(post.date), 'MMMM dd, yyyy')}
                     </time>
                   </div>
-                  <h2 className="text-2xl font-bold mb-3 transition-all group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:via-purple-400 group-hover:to-cyan-400 group-hover:bg-clip-text group-hover:text-transparent">
+                  <h2 className="text-2xl font-bold mb-3 text-white transition-all group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:via-purple-400 group-hover:to-cyan-400 group-hover:bg-clip-text group-hover:text-transparent">
                     {post.title}
                   </h2>
                   {post.excerpt && (
-                    <p className="text-white/70 mb-4 line-clamp-3">
+                    <p className="text-white/90 mb-4 line-clamp-3 leading-relaxed">
                       {post.excerpt}
                     </p>
                   )}
@@ -102,7 +102,7 @@ export default async function Home() {
                       {post.tags.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="px-3 py-1 text-xs rounded-full border border-white/20 bg-white/5 backdrop-blur-sm text-white/80"
+                          className="px-3 py-1 text-xs rounded-full border border-cyan-400/40 bg-cyan-500/10 backdrop-blur-sm text-cyan-200 font-medium"
                         >
                           {tag}
                         </span>

@@ -4,6 +4,12 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
+/* Emoji font support */
+@font-face {
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'EmojiOne Color', 'Twemoji Mozilla', 'Segoe UI Symbol', sans-serif;
+  unicode-range: U+1F300-1F9FF, U+1FA00-1FAFF, U+2600-26FF, U+2700-27BF;
+}
+
 :root {
   --color-background: #0a0a15;
   --color-primary: #ff0080;
@@ -41,12 +47,36 @@ html {
 }
 
 body {
-  font-family: 'Space Grotesk', 'Archivo', system-ui, -apple-system, sans-serif;
+  font-family: 'Space Grotesk', 'Archivo', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', system-ui, -apple-system, sans-serif;
   background: var(--color-background);
   color: var(--color-text);
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+}
+
+/* Ensure emojis render properly - use system emoji fonts */
+h1, h2, h3, h4, h5, h6, p, span, div, article, section {
+  font-variant-emoji: emoji;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Force emoji rendering */
+.emoji,
+h1 .emoji,
+h2 .emoji,
+h3 .emoji,
+p .emoji,
+span .emoji {
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'EmojiOne Color', 'Twemoji Mozilla', 'Segoe UI Symbol', sans-serif;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  display: inline-block;
+  vertical-align: baseline;
 }
 
 /* Animated gradient background */
@@ -174,13 +204,18 @@ body::after {
 
 /* Glassmorphism effect */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 
     0 8px 32px 0 rgba(31, 38, 135, 0.37),
     inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Ensure text is readable on glass */
+.glass p, .glass h1, .glass h2, .glass h3 {
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .glass-hover {
@@ -282,7 +317,7 @@ h1, h2, h3, h4, h5, h6 {
 .prose p {
   margin-bottom: 1.5em;
   line-height: 1.8;
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .prose a {
