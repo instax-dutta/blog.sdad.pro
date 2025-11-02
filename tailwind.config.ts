@@ -9,38 +9,38 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'sci-fi-dark': '#0a0a15',
-        'sci-fi-darker': '#1a1a2e',
-        'sci-fi-accent': '#00f5ff',
-        'sci-fi-accent-dark': '#00c4cc',
-        'sci-fi-purple': '#8338ec',
-        'sci-fi-pink': '#ff0080',
-        'sci-fi-cyan': '#00f5ff',
-        'sci-fi-yellow': '#ffbe0b',
+        'terminal-bg': '#0a0e0f',
+        'terminal-fg': '#00ff41',
+        'terminal-fg-dim': '#00cc33',
+        'terminal-fg-bright': '#33ff66',
+        'terminal-border': '#00ff41',
+        'terminal-accent': '#00ff88',
+        'terminal-yellow': '#ffff00',
+        'terminal-cyan': '#00ffff',
+        'terminal-magenta': '#ff00ff',
+        'terminal-red': '#ff0000',
+        'terminal-blue': '#0088ff',
       },
       fontFamily: {
-        'sci-fi': ['Space Grotesk', 'Archivo', 'system-ui', 'sans-serif'],
+        'terminal': ['JetBrains Mono', 'Fira Code', 'Courier New', 'monospace'],
+        'mono': ['JetBrains Mono', 'Fira Code', 'Courier New', 'monospace'],
       },
       boxShadow: {
-        'sci-fi': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
-        'sci-fi-glow': '0 12px 40px 0 rgba(255, 0, 128, 0.3)',
-        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37), inset 0 0 0 1px rgba(255, 255, 255, 0.1)',
-      },
-      backdropBlur: {
-        xs: '2px',
+        'terminal': '0 0 10px rgba(0, 255, 65, 0.3), inset 0 0 10px rgba(0, 255, 65, 0.1)',
+        'terminal-glow': '0 0 20px rgba(0, 255, 65, 0.5)',
       },
       animation: {
-        'glow': 'glow 2s ease-in-out infinite alternate',
-        'scan': 'scan 3s linear infinite',
+        'blink': 'blink 1s infinite',
+        'scanline': 'scanline 8s linear infinite',
       },
       keyframes: {
-        glow: {
-          '0%': { opacity: '0.5' },
-          '100%': { opacity: '1' },
+        blink: {
+          '0%, 50%': { opacity: '1' },
+          '51%, 100%': { opacity: '0' },
         },
-        scan: {
-          '0%': { transform: 'translateY(-100%)' },
-          '100%': { transform: 'translateY(100%)' },
+        scanline: {
+          '0%': { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(100vh)' },
         },
       },
     },
@@ -48,4 +48,3 @@ const config: Config = {
   plugins: [],
 }
 export default config
-

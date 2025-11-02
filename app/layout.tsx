@@ -48,8 +48,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
       return (
-        <html lang="en" style={{ fontFamily: "'Space Grotesk', 'Archivo', 'Apple Color Emoji', 'Segoe UI Emoji', system-ui, sans-serif" }}>
-          <body className="relative z-10">
+        <html lang="en">
+          <body className="relative z-10 font-terminal">
             <div className="relative z-10">
               {children}
             </div>
