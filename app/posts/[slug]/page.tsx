@@ -24,31 +24,46 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 
   const postUrl = `https://blog.sdad.pro/posts/${params.slug}`
+  const optimizedDescription = post.excerpt || post.title.substring(0, 160)
+  const postImage = post.image || 'https://blog.sdad.pro/og-image.png'
   
   return {
     title: `${post.title} | ML Matters`,
-    description: post.excerpt || post.title,
-    keywords: post.tags?.join(', '),
-    authors: [{ name: post.author || 'SDAD' }],
+    description: optimizedDescription,
+    keywords: post.tags?.join(', ') || 'AI, Machine Learning, Technology',
+    authors: [{ name: post.author || 'SDAD', url: 'https://sdad.pro' }],
     creator: post.author || 'SDAD',
     publisher: 'SDAD',
+    category: post.tags?.[0] || 'Technology',
     alternates: {
       canonical: postUrl,
     },
     openGraph: {
       title: post.title,
-      description: post.excerpt || post.title,
+      description: optimizedDescription,
       type: 'article',
       url: postUrl,
-      publishedTime: post.date,
-      authors: [post.author || 'SDAD'],
-      tags: post.tags,
       siteName: 'ML Matters',
+      locale: 'en_US',
+      publishedTime: post.date,
+      modifiedTime: post.date,
+      authors: [post.author || 'SDAD'],
+      tags: post.tags || [],
+      images: [
+        {
+          url: postImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
-      description: post.excerpt || post.title,
+      description: optimizedDescription,
+      creator: '@SDAD',
+      images: [postImage],
     },
     robots: {
       index: true,
@@ -77,22 +92,49 @@ export default async function BlogPost({ params }: { params: { slug: string } })
   return (
     <>
       <BlogPostJsonLd post={post} />
-      <main className="min-h-screen px-4 py-8 md:px-8 lg:px-16 xl:px-24 font-terminal">
+      <BreadcrumbJsonLd items={[
+        { name: 'Home', url: 'https://blog.sdad.pro' },
+        { name: 'Blog', url: 'https://blog.sdad.pro' },
+        { name: post.title, url: `https://blog.sdad.pro/posts/${post.slug}` },
+      ]} />
+      <main className="min-h-screen px-4 py-6 sm:py-8 md:px-6 lg:px-8 xl:px-12 font-terminal">
       <div className="max-w-4xl mx-auto">
+        {/* Breadcrumb Navigation */}
+        <nav aria-label="Breadcrumb" className="mb-4 sm:mb-6 md:mb-8">
+          <ol className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs text-terminal-fg-dim font-mono">
+            <li>
+              <Link href="/" className="hover:text-terminal-fg transition-colors" aria-label="Home">
+                $ cd ~
+              </Link>
+            </li>
+            <li aria-hidden="true" className="text-terminal-fg-dim">/</li>
+            <li>
+              <Link href="/" className="hover:text-terminal-fg transition-colors" aria-label="Blog">
+                blog
+              </Link>
+            </li>
+            <li aria-hidden="true" className="text-terminal-fg-dim">/</li>
+            <li className="text-terminal-fg" aria-current="page">
+              {post.title.length > 20 ? post.title.substring(0, 20) + '...' : post.title}
+            </li>
+          </ol>
+        </nav>
+
         {/* Header */}
-        <header className="mb-8">
+        <header className="mb-6 sm:mb-8">
           <Link
             href="/"
-            className="inline-block mb-8 terminal-border px-6 py-3 hover:shadow-terminal-glow transition-all"
+            className="inline-block terminal-border px-4 sm:px-6 py-2 sm:py-3 hover:shadow-terminal-glow transition-all"
+            aria-label="Back to blog homepage"
           >
-            <span className="text-terminal-fg-bright font-mono text-sm">
+            <span className="text-terminal-fg-bright font-mono text-xs sm:text-sm">
               $ cd .. && ls
             </span>
           </Link>
         </header>
 
         {/* Article */}
-        <article className="terminal-border p-8 md:p-12">
+        <article className="terminal-border p-4 sm:p-6 md:p-8 lg:p-12" itemScope itemType="https://schema.org/BlogPosting">
           {/* Post Header */}
           <header className="mb-8 pb-6 border-b border-terminal-fg-dim">
             <div className="mb-4">
@@ -100,20 +142,26 @@ export default async function BlogPost({ params }: { params: { slug: string } })
 {`$ cat ${post.slug}.md`}
               </pre>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-terminal-fg font-mono">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-terminal-fg font-mono" itemProp="headline">
               {post.title}
             </h1>
             
-            <div className="flex flex-wrap items-center gap-4 text-xs text-terminal-fg-dim font-mono">
-              <span>$ date: {format(new Date(post.date), 'yyyy-MM-dd')}</span>
-              <span className="text-terminal-fg-dim">|</span>
-              <span>$ reading_time: {readingTime}min</span>
-              <span className="text-terminal-fg-dim">|</span>
-              <span>$ word_count: {wordCount.toLocaleString()}</span>
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-terminal-fg-dim font-mono">
+              <time dateTime={post.date} itemProp="datePublished">
+                $ date: {format(new Date(post.date), 'yyyy-MM-dd')}
+              </time>
+              <span className="text-terminal-fg-dim hidden sm:inline">|</span>
+              <span itemProp="timeRequired" content={`PT${readingTime}M`}>
+                $ reading_time: {readingTime}min
+              </span>
+              <span className="text-terminal-fg-dim hidden sm:inline">|</span>
+              <span itemProp="wordCount" content={wordCount.toString()}>
+                $ word_count: {wordCount.toLocaleString()}
+              </span>
               {post.author && (
                 <>
-                  <span className="text-terminal-fg-dim">|</span>
-                  <span>$ author: {post.author}</span>
+                  <span className="text-terminal-fg-dim hidden sm:inline">|</span>
+                  <span itemProp="author">{`$ author: ${post.author}`}</span>
                 </>
               )}
             </div>
@@ -204,8 +252,10 @@ export default async function BlogPost({ params }: { params: { slug: string } })
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={src || ''}
-                    alt={alt || ''}
-                    className="border border-terminal-border my-6 max-w-full h-auto"
+                    alt={alt || 'Blog post image'}
+                    className="border border-terminal-border my-4 sm:my-6 max-w-full h-auto"
+                    loading="lazy"
+                    decoding="async"
                   />
                 ),
                 hr: () => (

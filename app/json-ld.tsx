@@ -11,11 +11,12 @@ export function BlogPostJsonLd({ post }: { post: BlogPost }) {
     '@type': 'BlogPosting',
     '@id': postUrl,
     headline: post.title,
-    description: post.excerpt || post.title,
+    description: post.excerpt || post.title.substring(0, 160),
     author: {
       '@type': 'Person',
       name: post.author || 'SDAD',
       url: 'https://sdad.pro',
+      '@id': 'https://sdad.pro',
     },
     publisher: {
       '@type': 'Organization',
@@ -24,6 +25,8 @@ export function BlogPostJsonLd({ post }: { post: BlogPost }) {
       logo: {
         '@type': 'ImageObject',
         url: 'https://blog.sdad.pro/favicon.svg',
+        width: 512,
+        height: 512,
       },
     },
     datePublished: post.date,
@@ -33,6 +36,7 @@ export function BlogPostJsonLd({ post }: { post: BlogPost }) {
       '@id': postUrl,
     },
     url: postUrl,
+    inLanguage: 'en-US',
     wordCount: wordCount,
     timeRequired: `PT${readingTime}M`,
     articleSection: post.tags?.[0] || 'Technology',
@@ -40,6 +44,8 @@ export function BlogPostJsonLd({ post }: { post: BlogPost }) {
       image: {
         '@type': 'ImageObject',
         url: post.image,
+        width: 1200,
+        height: 630,
       },
     }),
     ...(post.tags && post.tags.length > 0 && {
@@ -84,6 +90,7 @@ export function WebsiteJsonLd() {
     alternateName: 'ML Matters Blog',
     url: 'https://blog.sdad.pro',
     description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
+    inLanguage: 'en-US',
     publisher: {
       '@type': 'Organization',
       name: 'SDAD',
@@ -91,6 +98,8 @@ export function WebsiteJsonLd() {
       logo: {
         '@type': 'ImageObject',
         url: 'https://blog.sdad.pro/favicon.svg',
+        width: 512,
+        height: 512,
       },
     },
     potentialAction: {
@@ -100,6 +109,10 @@ export function WebsiteJsonLd() {
         urlTemplate: 'https://blog.sdad.pro?search={search_term_string}',
       },
       'query-input': 'required name=search_term_string',
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: 'multiple',
     },
   }
 

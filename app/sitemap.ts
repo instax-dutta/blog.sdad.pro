@@ -3,9 +3,19 @@ import { getBlogPosts } from '@/lib/blog'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://blog.sdad.pro'
-  const posts = await getBlogPosts()
+  
+  let posts
+  try {
+    posts = await getBlogPosts()
+  } catch (error) {
+    console.error('Error fetching posts for sitemap:', error)
+    posts = []
+  }
 
-  const postUrls = posts.map((post) => ({
+  // Filter only published posts
+  const publishedPosts = posts.filter(post => post.published !== false && post.slug && post.title)
+
+  const postUrls = publishedPosts.map((post) => ({
     url: `${baseUrl}/posts/${post.slug}`,
     lastModified: new Date(post.date),
     changeFrequency: 'weekly' as const,
@@ -16,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: 'daily' as const,
       priority: 1,
     },
     ...postUrls,
