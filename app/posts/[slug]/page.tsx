@@ -187,6 +187,7 @@ export default async function BlogPost({ params }: { params: { slug: string } })
                   <li className="leading-relaxed">{children}</li>
                 ),
                 img: ({ src, alt }) => (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={src || ''}
                     alt={alt || ''}

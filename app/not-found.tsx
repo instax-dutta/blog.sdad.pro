@@ -11,7 +11,7 @@ export default function NotFound() {
           Post Not Found
         </p>
         <p className="text-sci-fi-cyan/70 mb-8">
-          The blog post you're looking for doesn't exist or has been removed.
+          The blog post you&apos;re looking for doesn&apos;t exist or has been removed.
         </p>
         <Link
           href="/"
