@@ -5,7 +5,7 @@ import { getBlogPosts } from '@/lib/blog'
 import { WebsiteJsonLd, BlogJsonLd } from '@/app/json-ld'
 
 export const metadata: Metadata = {
-  title: 'Blog | SDAD',
+  title: 'ML Matters | AI & Machine Learning Blog',
   description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
   keywords: ['AI', 'machine learning', 'artificial intelligence', 'deep learning', 'technology', 'innovation', 'tech blog', 'ML', 'neural networks', 'data science', 'SDAD'],
   authors: [{ name: 'SDAD' }],
@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://blog.sdad.pro',
-    title: 'Blog | SDAD',
+    title: 'ML Matters | AI & Machine Learning Blog',
     description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
-    siteName: 'SDAD Blog',
+    siteName: 'ML Matters',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Blog | SDAD',
+    title: 'ML Matters | AI & Machine Learning Blog',
     description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
   },
   robots: {
@@ -53,8 +53,7 @@ export default async function Home() {
         <header className="mb-16 text-center">
           <Link href="/" className="inline-block">
             <h1 className="text-5xl md:text-6xl font-bold mb-4 glow-cyan">
-              SDAD
-              <span className="text-sci-fi-accent">.BLOG</span>
+              ML Matters
             </h1>
           </Link>
           <p className="text-sci-fi-cyan text-lg md:text-xl max-w-2xl mx-auto">

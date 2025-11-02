@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'SDAD Blog',
-    short_name: 'SDAD Blog',
+    name: 'ML Matters',
+    short_name: 'ML Matters',
     description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
     start_url: '/',
     display: 'standalone',

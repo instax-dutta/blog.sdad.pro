@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Blog | SDAD',
+  title: 'ML Matters | AI & Machine Learning Blog',
   description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
   keywords: ['AI', 'machine learning', 'artificial intelligence', 'deep learning', 'technology', 'innovation', 'tech blog', 'ML', 'neural networks', 'data science', 'SDAD'],
   authors: [{ name: 'SDAD' }],
@@ -11,13 +11,13 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://blog.sdad.pro',
-    title: 'Blog | SDAD',
+    title: 'ML Matters | AI & Machine Learning Blog',
     description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
-    siteName: 'SDAD Blog',
+    siteName: 'ML Matters',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Blog | SDAD',
+    title: 'ML Matters | AI & Machine Learning Blog',
     description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
   },
   robots: {

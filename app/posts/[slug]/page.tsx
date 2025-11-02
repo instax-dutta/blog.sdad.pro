@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const postUrl = `https://blog.sdad.pro/posts/${params.slug}`
   
   return {
-    title: `${post.title} | SDAD Blog`,
+    title: `${post.title} | ML Matters`,
     description: post.excerpt || post.title,
     keywords: post.tags?.join(', '),
     authors: [{ name: post.author || 'SDAD' }],
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       publishedTime: post.date,
       authors: [post.author || 'SDAD'],
       tags: post.tags,
-      siteName: 'SDAD Blog',
+      siteName: 'ML Matters',
     },
     twitter: {
       card: 'summary_large_image',

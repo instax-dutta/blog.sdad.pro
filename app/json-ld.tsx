@@ -42,7 +42,7 @@ export function WebsiteJsonLd() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'SDAD Blog',
+    name: 'ML Matters',
     url: 'https://blog.sdad.pro',
     description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
     publisher: {
@@ -64,7 +64,7 @@ export function BlogJsonLd() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'SDAD Blog',
+    name: 'ML Matters',
     url: 'https://blog.sdad.pro',
     description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',
     publisher: {

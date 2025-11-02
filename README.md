@@ -1,6 +1,6 @@
-# SDAD Blog
+# ML Matters
 
-A dark mode, sci-fi themed blog website built with Next.js, TypeScript, and Tailwind CSS. Designed for Vercel hosting with an API endpoint for posting blogs via n8n workflows.
+ML Matters - An AI and Machine Learning blog website built with Next.js, TypeScript, and Tailwind CSS. Designed for Vercel hosting with an API endpoint for posting blogs via n8n workflows.
 
 ## Features
 
