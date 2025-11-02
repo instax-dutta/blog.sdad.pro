@@ -4,6 +4,9 @@ import { Metadata } from 'next'
 import { getBlogPosts } from '@/lib/blog'
 import { WebsiteJsonLd, BlogJsonLd } from '@/app/json-ld'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: 'ML Matters | AI & Machine Learning Blog',
   description: 'AI and Machine Learning blog covering the latest technology trends, breakthroughs, and innovations in artificial intelligence, deep learning, and cutting-edge tech developments',

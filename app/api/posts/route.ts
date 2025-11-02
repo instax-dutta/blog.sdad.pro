@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createBlogPost } from '@/lib/blog'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 // API Key for authentication (should be set as environment variable)
 const API_KEY = process.env.BLOG_API_KEY || 'your-secret-api-key-here'
 

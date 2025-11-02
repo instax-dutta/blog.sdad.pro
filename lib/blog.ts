@@ -221,11 +221,28 @@ export async function createBlogPost(post: Omit<BlogPost, 'slug' | 'content'> & 
 
   // Store updated posts array in Blob
   try {
+    console.log(`Storing ${updatedPosts.length} posts in Blob storage...`)
+    console.log('Posts to store:', updatedPosts.map(p => ({ slug: p.slug, title: p.title, published: p.published })))
+    
     const blob = await put(BLOB_STORAGE_KEY, JSON.stringify(updatedPosts), {
       access: 'public',
       contentType: 'application/json',
     })
-    console.log('Blog post stored in Blob:', blob.url)
+    
+    console.log('Blog post stored in Blob successfully:', {
+      url: blob.url,
+      pathname: blob.pathname,
+      size: blob.size,
+      totalPosts: updatedPosts.length,
+    })
+    
+    // Verify it was stored correctly
+    try {
+      const { blobs } = await list({ prefix: BLOB_STORAGE_KEY })
+      console.log(`Verification: Found ${blobs.length} blob(s) after storing`)
+    } catch (verifyError) {
+      console.warn('Could not verify blob storage:', verifyError)
+    }
   } catch (error) {
     console.error('Error storing blog post in Blob:', error)
     throw new Error(`Failed to store blog post: ${error instanceof Error ? error.message : 'Unknown error'}. Make sure Vercel Blob is configured.`)
