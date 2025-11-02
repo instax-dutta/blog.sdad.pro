@@ -66,22 +66,41 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   // Read posts from Blob storage (dynamic posts created via API)
   try {
     if (process.env.BLOB_READ_WRITE_TOKEN) {
+      console.log('Attempting to read from Blob storage...')
       // Check if the blob exists
       try {
         const { blobs } = await list({ prefix: BLOB_STORAGE_KEY })
+        console.log(`Found ${blobs.length} blob(s) with prefix "${BLOB_STORAGE_KEY}"`)
+        
         if (blobs.length > 0) {
-          // Fetch the blob content
-          const response = await fetch(blobs[0].url)
+          // Fetch the blob content - try both url and downloadUrl
+          const blobUrl = blobs[0].url || blobs[0].downloadUrl
+          console.log(`Fetching blob from: ${blobUrl}`)
+          
+          const response = await fetch(blobUrl)
+          if (!response.ok) {
+            throw new Error(`Failed to fetch blob: ${response.status} ${response.statusText}`)
+          }
+          
           const blobPosts: BlogPost[] = await response.json()
+          console.log(`Fetched ${blobPosts?.length || 0} posts from Blob storage`)
+          
           if (Array.isArray(blobPosts)) {
             const publishedPosts = blobPosts.filter((post) => post.published !== false)
+            console.log(`Filtered to ${publishedPosts.length} published posts`)
             posts.push(...publishedPosts)
+          } else {
+            console.warn('Blob content is not an array:', typeof blobPosts)
           }
+        } else {
+          console.log(`No blob found with prefix "${BLOB_STORAGE_KEY}"`)
         }
       } catch (error) {
         // Blob doesn't exist yet, that's fine - just means no dynamic posts yet
-        console.log('No blob storage found yet, will be created on first post')
+        console.log('No blob storage found yet (this is normal if no posts have been created via API):', error instanceof Error ? error.message : error)
       }
+    } else {
+      console.log('BLOB_READ_WRITE_TOKEN not set - Blob storage not available')
     }
   } catch (error) {
     console.error('Error reading blog posts from Blob storage:', error)
@@ -109,12 +128,15 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       const { blobs } = await list({ prefix: BLOB_STORAGE_KEY })
       if (blobs.length > 0) {
-        const response = await fetch(blobs[0].url)
-        const blobPosts: BlogPost[] = await response.json()
-        if (Array.isArray(blobPosts)) {
-          const post = blobPosts.find((p) => p.slug === slug && p.published !== false)
-          if (post) {
-            return post
+        const blobUrl = blobs[0].url || blobs[0].downloadUrl
+        const response = await fetch(blobUrl)
+        if (response.ok) {
+          const blobPosts: BlogPost[] = await response.json()
+          if (Array.isArray(blobPosts)) {
+            const post = blobPosts.find((p) => p.slug === slug && p.published !== false)
+            if (post) {
+              return post
+            }
           }
         }
       }
@@ -179,14 +201,18 @@ export async function createBlogPost(post: Omit<BlogPost, 'slug' | 'content'> & 
   try {
     const { blobs } = await list({ prefix: BLOB_STORAGE_KEY })
     if (blobs.length > 0) {
-      const response = await fetch(blobs[0].url)
-      existingPosts = await response.json()
-      if (!Array.isArray(existingPosts)) {
-        existingPosts = []
+      const blobUrl = blobs[0].url || blobs[0].downloadUrl
+      const response = await fetch(blobUrl)
+      if (response.ok) {
+        existingPosts = await response.json()
+        if (!Array.isArray(existingPosts)) {
+          console.warn('Blob content is not an array, initializing empty array')
+          existingPosts = []
+        }
       }
     }
   } catch (error) {
-    console.log('No existing posts found, starting fresh')
+    console.log('No existing posts found, starting fresh:', error instanceof Error ? error.message : error)
     existingPosts = []
   }
 

@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create blog post
+    console.log('Creating blog post with data:', { title, excerpt, published })
     const post = await createBlogPost({
       title,
       content,
@@ -53,6 +54,12 @@ export async function POST(request: NextRequest) {
       published: published !== false,
     })
 
+    console.log('Blog post created successfully:', {
+      slug: post.slug,
+      title: post.title,
+      published: post.published,
+    })
+
     return NextResponse.json(
       {
         success: true,
@@ -61,7 +68,9 @@ export async function POST(request: NextRequest) {
           slug: post.slug,
           title: post.title,
           date: post.date,
+          published: post.published,
         },
+        blobTokenConfigured: !!process.env.BLOB_READ_WRITE_TOKEN,
       },
       { status: 201 }
     )
